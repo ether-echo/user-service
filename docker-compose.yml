@@ -1,0 +1,11 @@
+services:
+  user-service:
+    build:
+      context: ./  # путь к папке с Dockerfile
+    container_name: user-service
+    networks:
+      - infra_net
+
+networks:
+  infra_net:
+    external: true
