@@ -5,7 +5,6 @@ go 1.23.7
 require (
 	github.com/IBM/sarama v1.45.1
 	github.com/caarlos0/env/v6 v6.10.1
-	github.com/ether-echo/protos v1.0.3
 	github.com/lib/pq v1.10.9
 	github.com/prometheus/client_golang v1.22.0
 	go.uber.org/zap v1.27.0
@@ -19,6 +18,7 @@ require (
 	github.com/eapache/go-resiliency v1.7.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20230731223053-c322873962e3 // indirect
 	github.com/eapache/queue v1.1.0 // indirect
+	github.com/ether-echo/protos v1.0.6 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect

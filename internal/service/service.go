@@ -11,7 +11,7 @@ type IRepository interface {
 }
 
 type IRpc interface {
-	StartMessage(chatId int64, exist bool) error
+	StartMessage(chatID int64, firstName string, exist bool) error
 }
 
 type Service struct {
@@ -39,7 +39,7 @@ func (s *Service) ProcessStart(user *domain.User) error {
 		}
 	}
 
-	return s.rpc.StartMessage(user.ChatId, exist)
+	return s.rpc.StartMessage(user.ChatId, user.FirstName, exist)
 }
 
 func (s *Service) ProcessSave(chatId int64, message string) error {

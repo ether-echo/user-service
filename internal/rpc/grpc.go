@@ -31,13 +31,14 @@ func NewGrpcServer(addr string) *GrpcServer {
 	}
 }
 
-func (g *GrpcServer) StartMessage(chatID int64, exist bool) error {
+func (g *GrpcServer) StartMessage(chatID int64, firstName string, exist bool) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
 	resp, err := g.userServiceClient.StartMessage(ctx, &pb.StartRequest{
-		ChatId: chatID,
-		Exist:  exist,
+		ChatId:    chatID,
+		FirstName: firstName,
+		Exist:     exist,
 	})
 
 	if err != nil {
