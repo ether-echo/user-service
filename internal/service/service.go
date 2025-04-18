@@ -32,7 +32,7 @@ func (s *Service) ProcessStart(user *domain.User) error {
 		return err
 	}
 
-	if exist {
+	if !exist {
 		err = s.repository.RegisterUser(user)
 		if err != nil {
 			return err

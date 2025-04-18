@@ -31,7 +31,7 @@ func main() {
 		debug.Run(":" + conf.DebugPort)
 	}()
 
-	grpcServer := rpc.NewGrpcServer("telegram-api-service:50051")
+	grpcServer := rpc.NewGrpcServer("message-processor:50052")
 	defer grpcServer.Close()
 
 	pDB := repository.NewPostgresDB(conf)

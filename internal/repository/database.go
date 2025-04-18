@@ -35,6 +35,7 @@ func NewPostgresDB(cnf *config.Config) *PostgresDB {
 
 func (p *PostgresDB) IsUserRegistered(chatID int64) (bool, error) {
 	var exists bool
+
 	err := p.db.QueryRow(`
 		SELECT EXISTS(SELECT 1 FROM users WHERE chat_id = $1)
 	`, chatID).Scan(&exists)
@@ -46,6 +47,7 @@ func (p *PostgresDB) IsUserRegistered(chatID int64) (bool, error) {
 }
 
 func (p *PostgresDB) RegisterUser(user *domain.User) error {
+
 	_, err := p.db.Exec(`
 		INSERT INTO users (chat_id, first_name, last_name, username, registered_at)
 		VALUES ($1, $2, $3, $4, $5)
