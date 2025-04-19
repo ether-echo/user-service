@@ -44,17 +44,5 @@ func (s *Service) ProcessStart(user *domain.User) error {
 }
 
 func (s *Service) ProcessSave(ctx context.Context, chatId int64, message string) error {
-	exist, err := s.repository.IsUserRegistered(user.ChatId)
-	if err != nil {
-		return err
-	}
-
-	if !exist {
-		err = s.repository.RegisterUser(user)
-		if err != nil {
-			return err
-		}
-	}
-
 	return s.repository.SaveMessage(ctx, chatId, message)
 }
