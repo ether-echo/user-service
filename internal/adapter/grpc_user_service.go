@@ -1,0 +1,32 @@
+package adapter
+
+import (
+	"context"
+	"github.com/ether-echo/user-service/pkg/logger"
+
+	up "github.com/ether-echo/protos/userProcessor"
+)
+
+var (
+	log = logger.Logger().Named("grpc_server").Sugar()
+)
+
+type IRepository interface {
+	ProcessSave(ctx context.Context, chatId int64, message string) error
+}
+
+type UserService struct {
+	up.UnimplementedUserServiceServer
+	Repository IRepository
+}
+
+func (u *UserService) SaveMessage(ctx context.Context, req *up.MessageRequest) (*up.MessageResponse, error) {
+	err := u.Repository.ProcessSave(ctx, req.ChatId, req.Message)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return &up.MessageResponse{
+		Success: true,
+	}, nil
+}

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"github.com/ether-echo/user-service/internal/domain"
@@ -66,8 +67,8 @@ func (p *PostgresDB) RegisterUser(user *domain.User) error {
 	return nil
 }
 
-func (p *PostgresDB) SaveMessage(chatID int64, message string) error {
-	_, err := p.db.Exec(`
+func (p *PostgresDB) SaveMessage(ctx context.Context, chatID int64, message string) error {
+	_, err := p.db.ExecContext(ctx, `
 		INSERT INTO messages (user_id, message, created_at)
 		VALUES ($1, $2, $3)
 	`,
@@ -78,6 +79,8 @@ func (p *PostgresDB) SaveMessage(chatID int64, message string) error {
 	if err != nil {
 		return fmt.Errorf("error inserting message into database: %v", err)
 	}
+
+	log.Info("successfully inserted message into database")
 
 	return nil
 }

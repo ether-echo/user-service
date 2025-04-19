@@ -3,6 +3,8 @@ services:
     build:
       context: ./  # путь к папке с Dockerfile
     container_name: user-service
+    ports:
+      - "50053:50053"
     networks:
       - infra_net
 

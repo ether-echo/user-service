@@ -1,13 +1,14 @@
 package service
 
 import (
+	"context"
 	"github.com/ether-echo/user-service/internal/domain"
 )
 
 type IRepository interface {
 	RegisterUser(user *domain.User) error
 	IsUserRegistered(chatId int64) (bool, error)
-	SaveMessage(chatID int64, message string) error
+	SaveMessage(ctx context.Context, chatID int64, message string) error
 }
 
 type IRpc interface {
@@ -42,6 +43,18 @@ func (s *Service) ProcessStart(user *domain.User) error {
 	return s.rpc.StartMessage(user.ChatId, user.FirstName, exist)
 }
 
-func (s *Service) ProcessSave(chatId int64, message string) error {
-	return s.repository.SaveMessage(chatId, message)
+func (s *Service) ProcessSave(ctx context.Context, chatId int64, message string) error {
+	exist, err := s.repository.IsUserRegistered(user.ChatId)
+	if err != nil {
+		return err
+	}
+
+	if !exist {
+		err = s.repository.RegisterUser(user)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.repository.SaveMessage(ctx, chatId, message)
 }
