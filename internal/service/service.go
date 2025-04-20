@@ -9,6 +9,8 @@ type IRepository interface {
 	RegisterUser(user *domain.User) error
 	IsUserRegistered(chatId int64) (bool, error)
 	SaveMessage(ctx context.Context, chatID int64, message string) error
+	GetTaro(ctx context.Context, chatID int64) (bool, error)
+	ChangeAccessTaro(ctx context.Context, chatID int64) error
 }
 
 type IRpc interface {
@@ -45,4 +47,18 @@ func (s *Service) ProcessStart(user *domain.User) error {
 
 func (s *Service) ProcessSave(ctx context.Context, chatId int64, message string) error {
 	return s.repository.SaveMessage(ctx, chatId, message)
+}
+
+func (s *Service) ProcessChangeAccessTaro(ctx context.Context, chatId int64) (bool, error) {
+	IsGotTaro, err := s.repository.GetTaro(ctx, chatId)
+	if err != nil {
+		return false, err
+	}
+
+	if !IsGotTaro {
+		err = s.repository.ChangeAccessTaro(ctx, chatId)
+		return IsGotTaro, err
+	}
+
+	return IsGotTaro, nil
 }

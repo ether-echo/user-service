@@ -13,6 +13,7 @@ var (
 
 type IRepository interface {
 	ProcessSave(ctx context.Context, chatId int64, message string) error
+	ProcessChangeAccessTaro(ctx context.Context, chatId int64) (bool, error)
 }
 
 type UserService struct {
@@ -28,5 +29,17 @@ func (u *UserService) SaveMessage(ctx context.Context, req *up.MessageRequest) (
 
 	return &up.MessageResponse{
 		Success: true,
+	}, nil
+}
+
+func (u *UserService) SetTaro(ctx context.Context, req *up.SetTaroRequest) (*up.SetTaroResponse, error) {
+	IsGotTaro, err := u.Repository.ProcessChangeAccessTaro(ctx, req.ChatId)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return &up.SetTaroResponse{
+		TaroIsGot: IsGotTaro,
+		Success:   true,
 	}, nil
 }

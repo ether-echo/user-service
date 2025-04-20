@@ -85,6 +85,28 @@ func (p *PostgresDB) SaveMessage(ctx context.Context, chatID int64, message stri
 	return nil
 }
 
+func (p *PostgresDB) GetTaro(ctx context.Context, chatID int64) (bool, error) {
+	var taro bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT got_taro FROM users WHERE chat_id = $1`, chatID).Scan(&taro)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return taro, nil
+}
+
+func (p *PostgresDB) ChangeAccessTaro(ctx context.Context, chatID int64) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE users SET got_taro = TRUE WHERE chat_id = $1`, chatID)
+	if err != nil {
+		return fmt.Errorf("error updating access taro user: %v", err)
+	}
+
+	log.Info("successfully updated access taro user")
+
+	return nil
+}
+
 func (p *PostgresDB) Close() {
 	err := p.db.Close()
 	if err != nil {
