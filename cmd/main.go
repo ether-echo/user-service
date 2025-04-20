@@ -11,6 +11,7 @@ import (
 	"github.com/ether-echo/user-service/pkg/config"
 	"github.com/ether-echo/user-service/pkg/debug"
 	"github.com/ether-echo/user-service/pkg/logger"
+	"github.com/ether-echo/user-service/pkg/resettingLimits"
 	"google.golang.org/grpc"
 	"net"
 	"os"
@@ -40,6 +41,12 @@ func main() {
 
 	pDB := repository.NewPostgresDB(conf)
 	defer pDB.Close()
+
+	resetService := resettingLimits.NewResettingLimits(pDB)
+
+	go func() {
+		resetService.ResetLimit(ctx)
+	}()
 
 	serviceTg := service.NewService(pDB, grpcServer)
 

@@ -107,6 +107,15 @@ func (p *PostgresDB) ChangeAccessTaro(ctx context.Context, chatID int64) error {
 	return nil
 }
 
+func (p *PostgresDB) ResetFlags(ctx context.Context) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE your_table SET your_column = false WHERE your_column = true;`)
+	if err != nil {
+		return fmt.Errorf("error resetting flags: %v", err)
+	}
+
+	return nil
+}
+
 func (p *PostgresDB) Close() {
 	err := p.db.Close()
 	if err != nil {
