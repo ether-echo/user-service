@@ -6,4 +6,5 @@ type User struct {
 	Username  string `json:"username,omitempty"`
 	ChatId    int64  `json:"chat_id,omitempty"`
 	Message   string `json:"message,omitempty"`
+	Command   string `json:"command,omitempty"`
 }

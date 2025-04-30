@@ -25,6 +25,10 @@ github.com/ether-echo/protos v1.0.9 h1:hNIKWWANb0KunmQjD5fcJbAd8rB7adnN9oXLdU7hB
 github.com/ether-echo/protos v1.0.9/go.mod h1:pVDgkFJDv/70LqwrN0D5NfCi7Fb1R1KTnDyu4l16s9Q=
 github.com/ether-echo/protos v1.0.10 h1:38zSSasFOSftblcfIqGzfMVUAMdUOdaoFYanGrTUf+o=
 github.com/ether-echo/protos v1.0.10/go.mod h1:pVDgkFJDv/70LqwrN0D5NfCi7Fb1R1KTnDyu4l16s9Q=
+github.com/ether-echo/protos v1.0.12 h1:AObDbFxp318tH0Kmc/YyOOY3cAgDCEmNHO574IcAhoc=
+github.com/ether-echo/protos v1.0.12/go.mod h1:pVDgkFJDv/70LqwrN0D5NfCi7Fb1R1KTnDyu4l16s9Q=
+github.com/ether-echo/protos v1.0.13 h1:03ljBcmRgyKC3rAamfatFTNbNODXu8eqzXEK2HKeDZ4=
+github.com/ether-echo/protos v1.0.13/go.mod h1:pVDgkFJDv/70LqwrN0D5NfCi7Fb1R1KTnDyu4l16s9Q=
 github.com/fortytw2/leaktest v1.3.0 h1:u8491cBMTQ8ft8aeV+adlcytMZylmA5nnwwkRZjI8vw=
 github.com/fortytw2/leaktest v1.3.0/go.mod h1:jDsjWgpAGjm2CA7WthBh/CdZYEPF31XHquHwclZch5g=
 github.com/go-logr/logr v1.4.2 h1:6pFjapn8bFcIbiKo3XT4j/BhANplGihG6tvd+8rYgrY=

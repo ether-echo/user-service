@@ -11,6 +11,8 @@ type IRepository interface {
 	SaveMessage(ctx context.Context, chatID int64, message string) error
 	GetTaro(ctx context.Context, chatID int64) (bool, error)
 	ChangeAccessTaro(ctx context.Context, chatID int64) error
+	GetAllUsers(ctx context.Context) ([]domain.User, error)
+	GetAllChatId(ctx context.Context) ([]int64, error)
 }
 
 type IRpc interface {
@@ -61,4 +63,20 @@ func (s *Service) ProcessChangeAccessTaro(ctx context.Context, chatId int64) (bo
 	}
 
 	return IsGotTaro, nil
+}
+
+func (s *Service) ProcessGetAllUsers(ctx context.Context) ([]domain.User, error) {
+	users, err := s.repository.GetAllUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (s *Service) ProcessGetAllChatId(ctx context.Context) ([]int64, error) {
+	users, err := s.repository.GetAllChatId(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
 }

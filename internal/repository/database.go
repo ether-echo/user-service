@@ -123,6 +123,44 @@ func (p *PostgresDB) ResetFlags(ctx context.Context) error {
 	return nil
 }
 
+func (p *PostgresDB) GetAllUsers(ctx context.Context) ([]domain.User, error) {
+	rows, err := p.db.QueryContext(ctx, "SELECT chat_id, first_name, last_name, username FROM users")
+	if err != nil {
+		return nil, fmt.Errorf("error getting all users: %v", err)
+	}
+	defer rows.Close()
+
+	var users []domain.User
+
+	for rows.Next() {
+		var u domain.User
+		if err := rows.Scan(&u.ChatId, &u.FirstName, &u.LastName, &u.Username); err != nil {
+			return nil, fmt.Errorf("error scanning all users: %v", err)
+		}
+		users = append(users, u)
+	}
+
+	return users, nil
+}
+
+func (p *PostgresDB) GetAllChatId(ctx context.Context) ([]int64, error) {
+	rows, err := p.db.QueryContext(ctx, "SELECT chat_id FROM users")
+	if err != nil {
+		return nil, fmt.Errorf("error getting all chatId: %v", err)
+	}
+	defer rows.Close()
+
+	var chatIDs []int64
+	for rows.Next() {
+		var id int64
+		if err := rows.Scan(&id); err != nil {
+			return nil, fmt.Errorf("error scanning all chatId: %v", err)
+		}
+		chatIDs = append(chatIDs, id)
+	}
+	return chatIDs, nil
+}
+
 func (p *PostgresDB) Close() {
 	err := p.db.Close()
 	if err != nil {

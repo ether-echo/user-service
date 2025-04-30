@@ -41,6 +41,9 @@ func (h *ConsumerGroupHandler) ConsumeClaim(session sarama.ConsumerGroupSession,
 				log.Errorf("Error unmarshaling message: %v", err)
 				continue
 			}
+
+			user.Command = message.Topic
+
 			switch message.Topic {
 			case "start":
 				if err := h.handler.ProcessStart(&user); err != nil {
