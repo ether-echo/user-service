@@ -161,6 +161,105 @@ func (p *PostgresDB) GetAllChatId(ctx context.Context) ([]int64, error) {
 	return chatIDs, nil
 }
 
+func (p *PostgresDB) GetSub(ctx context.Context, chatID int64) (bool, error) {
+	var sub bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT subscription FROM users WHERE chat_id = $1`, chatID).Scan(&sub)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return sub, nil
+}
+
+func (p *PostgresDB) ChangeAccessNum(ctx context.Context, chatID int64) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE users SET got_personal_numerology = TRUE WHERE chat_id = $1`, chatID)
+	if err != nil {
+		return fmt.Errorf("error updating access taro user: %v", err)
+	}
+
+	log.Info("successfully updated access taro user")
+
+	return nil
+}
+
+func (p *PostgresDB) ChangeAccessTaroLove(ctx context.Context, chatID int64) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE users SET got_taro_love = TRUE WHERE chat_id = $1`, chatID)
+	if err != nil {
+		return fmt.Errorf("error updating access taro user: %v", err)
+	}
+
+	log.Info("successfully updated access taro user")
+
+	return nil
+}
+
+func (p *PostgresDB) ChangeAccessTaroFinance(ctx context.Context, chatID int64) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE users SET got_taro_finance = TRUE WHERE chat_id = $1`, chatID)
+	if err != nil {
+		return fmt.Errorf("error updating access taro user: %v", err)
+	}
+
+	log.Info("successfully updated access taro user")
+
+	return nil
+}
+
+func (p *PostgresDB) ChangeAccessTaroHealth(ctx context.Context, chatID int64) error {
+	_, err := p.db.ExecContext(ctx, `UPDATE users SET got_taro_health = TRUE WHERE chat_id = $1`, chatID)
+	if err != nil {
+		return fmt.Errorf("error updating access taro user: %v", err)
+	}
+
+	log.Info("successfully updated access taro user")
+
+	return nil
+}
+
+func (p *PostgresDB) GetPersonalNumerology(ctx context.Context, chatID int64) (bool, error) {
+	var num bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT got_personal_numerology FROM users WHERE chat_id = $1`, chatID).Scan(&num)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return num, nil
+}
+
+func (p *PostgresDB) GetTaroLove(ctx context.Context, chatID int64) (bool, error) {
+	var taro bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT got_taro_love FROM users WHERE chat_id = $1`, chatID).Scan(&taro)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return taro, nil
+}
+
+func (p *PostgresDB) GetTaroFinance(ctx context.Context, chatID int64) (bool, error) {
+	var taro bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT got_taro_finance FROM users WHERE chat_id = $1`, chatID).Scan(&taro)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return taro, nil
+}
+
+func (p *PostgresDB) GetTaroHealth(ctx context.Context, chatID int64) (bool, error) {
+	var taro bool
+
+	err := p.db.QueryRowContext(ctx, `SELECT got_taro_health FROM users WHERE chat_id = $1`, chatID).Scan(&taro)
+	if err != nil {
+		return false, fmt.Errorf("error getting taro: %v", err)
+	}
+
+	return taro, nil
+}
+
 func (p *PostgresDB) Close() {
 	err := p.db.Close()
 	if err != nil {
